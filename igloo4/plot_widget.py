@@ -120,6 +120,22 @@ class PlotWidget(QWidget):
             self._fig.savefig(path, dpi=EXPORT_DPI, bbox_inches="tight")
             QMessageBox.information(self, "Exported", f"Plot saved to:\n{path}")
 
+    def refresh_style(self) -> None:
+        """Re-apply current matplotlib rcParams to the figure and redraw.
+
+        Called after a theme switch so font sizes and colours take effect
+        on the existing canvas (new plots will already use the new rcParams).
+        """
+        # Update tick/label sizes on all existing axes
+        import matplotlib as mpl
+        for ax in self._fig.axes:
+            ax.tick_params(labelsize=mpl.rcParams["xtick.labelsize"])
+            for item in ([ax.title, ax.xaxis.label, ax.yaxis.label]):
+                item.set_fontsize(mpl.rcParams["axes.labelsize"])
+        # Re-draw the legend with the new font size
+        _update_legend(self._fig)
+        self._canvas.draw()
+
     # ------------------------------------------------------------------
     # Private helpers
     # ------------------------------------------------------------------
@@ -239,10 +255,12 @@ def _axis_label(unit: str) -> str:
 
 def _update_legend(fig: Figure) -> None:
     """Collect handles/labels from all axes and put a single legend on the first axis."""
+    from igloo4 import theme as _theme
     all_handles, all_labels = [], []
     for ax in fig.axes:
         h, l = ax.get_legend_handles_labels()
         all_handles.extend(h)
         all_labels.extend(l)
     if all_handles:
-        fig.axes[0].legend(all_handles, all_labels, loc="best", fontsize=8)
+        fig.axes[0].legend(all_handles, all_labels, loc="best",
+                           fontsize=_theme.active_legend_fontsize())

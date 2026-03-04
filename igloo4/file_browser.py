@@ -99,7 +99,7 @@ class FileBrowser(QWidget):
             self._tree.hideColumn(col)
         self._tree.setSortingEnabled(True)
         self._tree.setAnimated(True)
-        self._tree.setMinimumHeight(200)
+        self._tree.setMinimumHeight(80)
         self._tree.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
         # Start at home directory
@@ -119,7 +119,7 @@ class FileBrowser(QWidget):
         layout.addWidget(QLabel("<b>Selected files</b>"))
         self._file_list = QListWidget()
         self._file_list.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
-        self._file_list.setMinimumHeight(80)
+        self._file_list.setMinimumHeight(40)
         self._file_list.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         layout.addWidget(self._file_list)
 
@@ -135,7 +135,7 @@ class FileBrowser(QWidget):
 
         # --- Load button ---
         self._load_btn = QPushButton("⬆  Load files")
-        self._load_btn.setStyleSheet("font-weight: bold; padding: 6px;")
+        self._load_btn.setObjectName("load_btn")
         self._load_btn.clicked.connect(self._emit_load)
         layout.addWidget(self._load_btn)
 
