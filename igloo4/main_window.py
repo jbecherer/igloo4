@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
         bottom_dock.setAllowedAreas(Qt.DockWidgetArea.BottomDockWidgetArea |
                                      Qt.DockWidgetArea.TopDockWidgetArea)
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, bottom_dock)
-        bottom_dock.setMinimumHeight(180)
+        bottom_dock.setMinimumHeight(200)
 
         # --- Status bar ---
         self._status = QStatusBar()

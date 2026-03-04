@@ -25,7 +25,8 @@ THEMES: dict[str, dict] = {
     "Standard": {
         "font_family": "",          # empty → leave Qt to use the system default
         "font_size_pt": 0,          # 0 → leave Qt to use the system default
-        "stylesheet": "",           # empty → system style, no overrides
+        # Minimal stylesheet: only make the Load button stand out
+        "stylesheet": "QPushButton#load_btn { font-weight: bold; padding: 6px; }",
         "mpl_style": [],            # no matplotlib style override
         "mpl_font_size": 9,
         "plot_legend_fontsize": 8,
