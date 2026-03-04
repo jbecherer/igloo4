@@ -8,14 +8,16 @@ from __future__ import annotations
 
 from PyQt6.QtWidgets import (
     QMainWindow, QDockWidget, QStatusBar, QMessageBox,
-    QMenuBar, QMenu,
+    QMenuBar, QMenu, QApplication,
 )
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QActionGroup
 
 from igloo4.data_manager import DataManager
 from igloo4.file_browser import FileBrowser
 from igloo4.variable_panel import VariablePanel
 from igloo4.plot_widget import PlotWidget
+from igloo4 import theme as _theme
 
 
 class MainWindow(QMainWindow):
@@ -25,6 +27,9 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Igloo4 — Slocum Glider Viewer")
         self.resize(1280, 800)
+
+        # Apply the default theme before any widgets are created
+        _theme.apply_theme(QApplication.instance(), "Standard")
 
         self._dm = DataManager()
 
@@ -82,10 +87,24 @@ class MainWindow(QMainWindow):
         file_menu.addSeparator()
         file_menu.addAction("&Quit", self.close)
 
-        # View menu — toggle docks
+        # View menu — toggle docks + theme switcher
         view_menu: QMenu = menu_bar.addMenu("&View")
         view_menu.addAction(left_dock.toggleViewAction())
         view_menu.addAction(bottom_dock.toggleViewAction())
+        view_menu.addSeparator()
+
+        theme_menu: QMenu = view_menu.addMenu("&Theme")
+        theme_group = QActionGroup(self)
+        theme_group.setExclusive(True)
+        for name in _theme.THEMES:
+            action = theme_menu.addAction(name)
+            action.setCheckable(True)
+            action.setChecked(name == _theme.active_theme())
+            action.setData(name)
+            theme_group.addAction(action)
+        theme_group.triggered.connect(
+            lambda act: self._on_theme_changed(act.data())
+        )
 
         # Help menu
         help_menu: QMenu = menu_bar.addMenu("&Help")
@@ -121,6 +140,11 @@ class MainWindow(QMainWindow):
         self._plot.clear_plot()
         self._var_panel.populate_all_variables([])
         self._status.showMessage("Mode changed — please load files.")
+
+    def _on_theme_changed(self, name: str) -> None:
+        _theme.apply_theme(QApplication.instance(), name)
+        self._plot.refresh_style()
+        self._status.showMessage(f"Theme switched to '{name}'.")
 
     def _show_about(self) -> None:
         QMessageBox.about(
