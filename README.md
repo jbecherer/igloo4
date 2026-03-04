@@ -2,7 +2,7 @@
 
 A desktop GUI application for exploring and plotting data from Slocum underwater glider binary files (`.dbd`, `.ebd`, `.sbd`, `.tbd`).
 
-![layout sketch](https://placehold.co/800x400?text=Igloo4+GUI)
+![layout sketch](./doc/GUI_screeshot.png)
 
 ---
 
