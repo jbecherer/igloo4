@@ -27,7 +27,7 @@ A desktop GUI application for exploring and plotting data from Slocum underwater
 | Dependency | Version |
 |------------|---------|
 | Python | ≥ 3.14 |
-| [dbdreader](https://github.com/dockterj/dbdreader) | ≥ 0.5.8 |
+| [dbdreader](https://github.com/smerckel/dbdreader) | ≥ 0.5.8 |
 | PyQt6 | ≥ 6.10.2 |
 | matplotlib | ≥ 3.10.8 |
 | scipy | ≥ 1.17.1 |
