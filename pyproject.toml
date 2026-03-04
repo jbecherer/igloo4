@@ -1,0 +1,11 @@
+[project]
+name = "igloo4"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.14"
+dependencies = [
+    "dbdreader>=0.5.8",
+    "matplotlib>=3.10.8",
+    "pyqt6>=6.10.2",
+    "scipy>=1.17.1",
+]
